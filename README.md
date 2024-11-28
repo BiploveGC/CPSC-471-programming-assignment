@@ -1,4 +1,4 @@
-Simplified FTP Client-Server
+**Simplified FTP Client-Server**
 
 Project Overview
 This project implements a simplified FTP (File Transfer Protocol) system using Python. It includes:
