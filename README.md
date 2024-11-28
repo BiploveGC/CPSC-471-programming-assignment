@@ -1,6 +1,6 @@
 **Simplified FTP Client-Server**
 
-Project Overview
+**Project Overview**
 This project implements a simplified FTP (File Transfer Protocol) system using Python. It includes:
 
 - Server (serv.py): Handles client commands and facilitates file transfers.
