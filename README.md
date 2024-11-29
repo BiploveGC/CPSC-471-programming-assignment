@@ -23,19 +23,19 @@ Group members:
 
 1. Open the terminal
 2. Navigate the server directory
-   cd FTPProject
+
    cd server
 
-3. Start the server
+4. Start the server
    python serv.py <PORT>
    e.g. python3 serv.py 12345
 
 5. Open another terminal
 6. Naviage the client direectory
-   cd FTPProject
+   
    cd client
    
-7. Start the client
+8. Start the client
    python3 cli.py <SERVER_IP> <PORT>
    e.g. python3 cli.py 127.0.0.1 12345
 
