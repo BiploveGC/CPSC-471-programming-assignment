@@ -51,7 +51,8 @@ Group members:
 5. quit: Disconnect from the server.
 
 **Screenshots**
-![image](https://github.com/user-attachments/assets/70ebfd87-227a-41f5-8960-fa0ab52eee19)
+![image](https://github.com/user-attachments/assets/60f91054-e160-4847-a711-c6b1443c69a9)
+
 
 
 
