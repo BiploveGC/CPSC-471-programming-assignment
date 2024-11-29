@@ -27,16 +27,20 @@ Group members:
    cd server
 
 4. Start the server
+
    python serv.py <PORT>
+
    e.g. python3 serv.py 12345
 
-5. Open another terminal
-6. Naviage the client direectory
+6. Open another terminal
+7. Naviage the client direectory
    
    cd client
    
 8. Start the client
+  
    python3 cli.py <SERVER_IP> <PORT>
+
    e.g. python3 cli.py 127.0.0.1 12345
 
 **FTP commands**
