@@ -1,28 +1,47 @@
+# OS COMMANDS INFO:
+# https://docs.python.org/3/library/os.html
 import os
+
+# SOCKET COMMANDS INFO:
+# 1. https://www.datacamp.com/tutorial/a-complete-guide-to-socket-programming-in-python
+# 2. https://docs.python.org/3/library/socket.html
 import socket
+
+# SYS COMMANDS INFO:
+# 1. https://docs.python.org/3/library/sys.html
 import sys
 
-# Command line check
-if len(sys.argv) < 2:
-    print("COMMAND: python3 serv.py <PORT_NUMBER>")
+
+# Command line check: -----
+# 1. Checks if any or too many arguments <PORT_NUMBER> are provided
+# 2. Must give 1 port number
+if len(sys.argv) !=2:
+    if len(sys.argv) < 2:
+        print("\nERROR: Missing port number.")
+    elif len(sys.argv) > 2:
+        print("\nError: Too manyarguments provided.")
+
+    print("Syntax: python3 serv.py <PORT_NUMBER>")
+    print("Example: python3 serv.py 12000\n")
     sys.exit()
 
-# Get the port number from the command line
-serverPort = int(sys.argv[1])
 
+# SETUP: TCP Connection -----
+# Get port number from the command line
+serverPort = int(sys.argv[1])
 # Create TCP socket for control channel
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
 # Bind socket to a port
 serverSocket.bind(('', serverPort))
-
 # Start listening on socket
 serverSocket.listen(1)
 print(f"Server is listening on port {serverPort}...")
 
+
 # Accept connections forever (receive data from client)
 while True:
-    # Accept a new connection
+    print("Waiting for connections...")
+    # Accept a new connection - .accept() returns (conn, address)
     connectionSocket, clientAddr = serverSocket.accept()
     print(f"Accepted connection from {clientAddr}")
 
@@ -37,8 +56,9 @@ while True:
                 print(f"Connection with {clientAddr} closed unexpectedly due to no command received.")
                 break
 
-            print(f"Received command: {command}")
+            print(f"Received commqand: {command}")
 
+            # HANDLE COMMANDS: 'ls', 'put', 'get' 'quit' -----
             # Handle 'ls' Command
             if command == "ls":
                 try:
@@ -75,6 +95,8 @@ while True:
                     fileSize = int(fileSizeStr)
 
                     # Receive the actual file data in chunks
+                    # Instead of using multiple buffers in sample code
+                    # Use loop to recive all data in hcunks and add it into fileData
                     fileData = b""
                     remaining = fileSize
                     while remaining > 0:
@@ -151,9 +173,9 @@ while True:
                 print(f"Connection with {clientAddr} closed.")
                 break  # Exit the loop to accept new connections
 
-            # Handle Unknown Command
+            # Handle Invalid Command
             else:
-                connectionSocket.send("Unknown command.".encode())
+                connectionSocket.send("Invalid command.".encode())
 
         except Exception as e:
             print(f"Exception occurred: {e}")
