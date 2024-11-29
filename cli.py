@@ -1,6 +1,16 @@
+# OS COMMANDS INFO:
+# https://docs.python.org/3/library/os.html
 import os
+
+# SOCKET COMMANDS INFO:
+# 1. https://www.datacamp.com/tutorial/a-complete-guide-to-socket-programming-in-python
+# 2. https://docs.python.org/3/library/socket.html
 import socket
+
+# SYS COMMANDS INFO:
+# 1. https://docs.python.org/3/library/sys.html
 import sys
+
 
 # Command line check
 if len(sys.argv) < 3:
@@ -24,7 +34,9 @@ while True:
     # Send command to the server
     clientSocket.send(command.encode())
 
-    # PUT command (client side)
+
+    # HANDLE COMMANDS SECTION ----------
+    # Handle 'put' command (client side)
     if command.startswith("put"):
         _, filename = command.split(" ", 1)
 
@@ -38,7 +50,7 @@ while True:
         dataSocket.bind(('', 0))  # Bind to an ephemeral port
         dataPort = dataSocket.getsockname()[1]
 
-        # Print the ephemeral port to verify it
+        # Print the ephemeral port
         print(f"Ephemeral port created: {dataPort}")
 
         # Send the ephemeral port number to the server
@@ -59,7 +71,7 @@ while True:
 
         # Send file data
         connection.send(fileData)
-        print(f"Sent file data for '{filename}'.")
+        print(f"Sent file data for '{filename}'")
 
         # Close the data connection
         connection.close()
@@ -69,7 +81,7 @@ while True:
         response = clientSocket.recv(4096).decode()
         print(f"Server response:\n{response}")
 
-    # GET command (client side)
+    # Handle 'get' command (client side)
     elif command.startswith("get"):
         _, filename = command.split(" ", 1)
 
@@ -108,24 +120,25 @@ while True:
         with open(filename, "wb") as file:
             file.write(fileData)
 
-        print(f"File '{filename}' received successfully.")
+        print(f"File '{filename}' received successfully")
 
         # Close the data connection
         connection.close()
         dataSocket.close()
 
-    # Handle 'ls' and 'quit' commands
+    # Handle 'ls' command (client side)
     elif command == "ls":
         response = clientSocket.recv(4096).decode()
-        print(f"Server response:\n{response}")
+        print(f"Server response:\n{response}\n")
 
+    # Handle 'quit' command (client side)
     elif command == "quit":
         response = clientSocket.recv(4096).decode()
-        print(f"Server response:\n{response}")
+        print(f"Server response:\n{response}\n")
         clientSocket.close()
         break
 
-    # Handle unknown command
+    # Handle everything else
     else:
         response = clientSocket.recv(4096).decode()
         print(f"Server response:\n{response}")
