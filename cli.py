@@ -10,7 +10,7 @@ import socket
 # SYS COMMANDS INFO:
 # 1. https://docs.python.org/3/library/sys.html
 import sys
-
+import time
 
 # Command line check
 if len(sys.argv) < 3:
@@ -33,7 +33,6 @@ while True:
 
     # Send command to the server
     clientSocket.send(command.encode())
-
 
     # HANDLE COMMANDS SECTION ----------
     # Handle 'put' command (client side)
@@ -69,8 +68,11 @@ while True:
         connection.send(str(fileSize).encode())
         print(f"Sent file size: {fileSize}")
 
+        # Introduce a delay to ensure the server is ready to receive the file
+        time.sleep(0.5)
+
         # Send file data
-        connection.send(fileData)
+        connection.sendall(fileData)
         print(f"Sent file data for '{filename}'")
 
         # Close the data connection
@@ -112,7 +114,7 @@ while True:
         while remaining > 0:
             chunk = connection.recv(min(4096, remaining))
             if not chunk:
-                break
+                raise Exception("Connection lost while receiving file data.")
             fileData += chunk
             remaining -= len(chunk)
 
