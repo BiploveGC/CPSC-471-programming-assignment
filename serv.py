@@ -11,20 +11,18 @@ import socket
 # 1. https://docs.python.org/3/library/sys.html
 import sys
 
-
 # Command line check: -----
 # 1. Checks if any or too many arguments <PORT_NUMBER> are provided
 # 2. Must give 1 port number
-if len(sys.argv) !=2:
+if len(sys.argv) != 2:
     if len(sys.argv) < 2:
         print("\nERROR: Missing port number.")
     elif len(sys.argv) > 2:
-        print("\nError: Too manyarguments provided.")
+        print("\nError: Too many arguments provided.")
 
     print("Syntax: python3 serv.py <PORT_NUMBER>")
     print("Example: python3 serv.py 12000\n")
     sys.exit()
-
 
 # SETUP: TCP Connection -----
 # Get port number from the command line
@@ -36,11 +34,10 @@ serverSocket.bind(('', serverPort))
 # Start listening on socket
 serverSocket.listen(1)
 print(f"Server is listening on port {serverPort}...")
-
+print("Waiting for connections...")
 
 # Accept connections forever (receive data from client)
 while True:
-    print("Waiting for connections...")
     # Accept a new connection - .accept() returns (conn, address)
     connectionSocket, clientAddr = serverSocket.accept()
     print(f"Accepted connection from {clientAddr}")
@@ -56,9 +53,9 @@ while True:
                 print(f"Connection with {clientAddr} closed unexpectedly due to no command received.")
                 break
 
-            print(f"Received commqand: {command}")
+            print(f"Received command: {command}")
 
-            # HANDLE COMMANDS: 'ls', 'put', 'get' 'quit' -----
+            # HANDLE COMMANDS: 'ls', 'put', 'get', 'quit' -----
             # Handle 'ls' Command
             if command == "ls":
                 try:
@@ -95,8 +92,6 @@ while True:
                     fileSize = int(fileSizeStr)
 
                     # Receive the actual file data in chunks
-                    # Instead of using multiple buffers in sample code
-                    # Use loop to recive all data in hcunks and add it into fileData
                     fileData = b""
                     remaining = fileSize
                     while remaining > 0:
